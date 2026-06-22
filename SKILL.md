@@ -1,25 +1,31 @@
 ---
 name: neonet-dingtalk-robot
-description: Implement Neonet DingTalk group robot integrations in internal systems. Use when adding group robot message sending, callback event capture, openConversationId/robotCode discovery, @-command handling, approvals, or test/formal group push flows, especially in Python/FastAPI services.
+description: Implement Neonet DingTalk enterprise internal application robot integrations in internal systems. Use when adding group robot message sending, callback event capture, openConversationId/robotCode discovery, @-command handling, approvals, test/formal group push flows, or when guiding developers through DingTalk open-platform setup for Python/FastAPI or other service stacks.
 ---
 
 # Neonet DingTalk Robot
 
-Use this skill to add DingTalk group robot capabilities to an internal system without rediscovering the DingTalk callback and group-message APIs.
+Use this skill to add DingTalk group robot capabilities to an internal system without rediscovering the DingTalk callback and group-message APIs. Prefer the DingTalk enterprise internal application robot path unless the user explicitly requests a simple custom webhook robot.
 
 ## Core Workflow
 
-1. Inspect the target project stack, routing style, auth middleware, config system, and storage layer.
-2. Decide whether the task only needs outbound group messages, or also needs callback event capture and command handling.
-3. Load the relevant reference:
+1. Inspect the target project before asking questions. Identify the stack, routing style, auth middleware, config system, storage layer, deployment path, and existing DingTalk utilities.
+2. Present a short inferred project profile for user confirmation. Ask at most 3 blocking questions only when code inspection cannot determine a safe path.
+3. Default to an enterprise internal application robot. Only switch to a custom webhook robot if the user asks for simple one-way notification and no @-command callback.
+4. Decide the required business capabilities: outbound messages only, callback event capture, @ commands, admin approvals, preview/formal group separation, recall, image/card messages, and send logs.
+5. Load the relevant reference:
+   - Guided intake and inferred project profile: `references/intake-checklist.md`
+   - Robot type decision and default recommendation: `references/robot-type-decision.md`
+   - DingTalk open-platform setup: `references/dingtalk-open-platform-setup.md`
    - FastAPI/Python integration: `references/fastapi-integration.md`
    - Callback fields and ID discovery: `references/callback-payload.md`
    - Group/admin configuration shape: `references/config-schema.md`
    - Command parsing and approval flows: `references/command-router.md`
+   - Permissions, owners, and escalation: `references/permissions-and-owners.md`
    - Verification and failure analysis: `references/testing-troubleshooting.md`
-4. Reuse the templates under `assets/fastapi/` when the target is Python/FastAPI. Copy them with `scripts/scaffold_fastapi.py` or adapt them manually.
-5. Keep secrets in the target project's existing environment/config mechanism. Never hard-code DingTalk app keys, app secrets, tokens, robot codes, group IDs, or user IDs in committed code.
-6. Add tests for command parsing, permission checks, target selection, and missing ID failure modes.
+6. Reuse the templates under `assets/fastapi/` when the target is Python/FastAPI. Copy them with `scripts/scaffold_fastapi.py` or adapt them manually. For other stacks, implement the same contracts from the references in the local framework style.
+7. Keep secrets in the target project's existing environment/config mechanism. Never hard-code DingTalk app keys, app secrets, tokens, robot codes, group IDs, or user IDs in committed code.
+8. Add tests for command parsing, permission checks, target selection, and missing ID failure modes.
 
 ## Integration Rules
 
@@ -30,6 +36,8 @@ Use this skill to add DingTalk group robot capabilities to an internal system wi
 - For production flows, separate preview/test groups from formal groups. Confirmation commands should always send to formal groups, not depend on a generic `testMode`.
 - Log outbound sends and the returned `processQueryKey`; recall only works when this key was captured and DingTalk still allows recall.
 - Prefer a small command router with synonyms over many ad hoc `if text contains ...` branches.
+- Do not make the user fill every technical detail up front. Infer project conditions from the repository, then ask the user to confirm the inferred plan.
+- Include a DingTalk open-platform checklist in the final handoff whenever the integration needs callback or group-message capabilities.
 
 ## Recommended Deliverables
 
@@ -41,6 +49,7 @@ For a full integration, produce:
 - Tables or equivalent storage for callback events and send logs.
 - Config entries for preview groups, formal groups, approvers, and command scope.
 - A short admin workflow: add robot to group, @ robot once, copy group ID from recent events, save config, send test message.
+- A DingTalk open-platform setup checklist with the callback URL, required app credentials, required robot capability, and permission owner.
 
 ## Template Assets
 
