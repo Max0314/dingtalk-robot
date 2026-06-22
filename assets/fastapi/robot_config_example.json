@@ -1,0 +1,29 @@
+{
+  "enabled": true,
+  "previewGroupTargets": [
+    {
+      "name": "AI应用开发组",
+      "openConversationId": "cid...",
+      "robotCode": "ding...",
+      "enabled": true
+    }
+  ],
+  "formalGroupTargets": [
+    {
+      "name": "大模型技术应用研究-D24/1031-01009-80031",
+      "openConversationId": "cid...",
+      "robotCode": "ding...",
+      "enabled": true
+    }
+  ],
+  "approverTargets": [
+    {
+      "name": "陈鹏列",
+      "userId": "01115324500438248944",
+      "enabled": true
+    }
+  ],
+  "approvalCommandScope": "any_configured_group",
+  "confirmSendTarget": "formal",
+  "sendGroupImages": false
+}

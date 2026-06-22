@@ -1,0 +1,8 @@
+interface:
+  display_name: "Neonet DingTalk Robot"
+  short_description: "Add DingTalk robot callbacks to services."
+  brand_color: "#1677FF"
+  default_prompt: "Use $neonet-dingtalk-robot to add DingTalk group robot send, callback discovery, and @ command handling to this service."
+
+policy:
+  allow_implicit_invocation: true
