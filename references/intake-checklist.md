@@ -15,6 +15,7 @@ Look for:
 - background job/scheduler style if the robot sends timed messages
 - admin UI conventions if group/approver config needs a page
 - deployment base path and public HTTPS domain
+- user's DingTalk Open Platform state if inferable from supplied fields or screenshots
 
 ## Inferred Profile To Show The User
 
@@ -28,6 +29,7 @@ Inferred project profile:
 - Storage mechanism:
 - Auth/login middleware:
 - Recommended robot type: enterprise internal application robot
+- DingTalk Open Platform state: self-service / existing application / needs escalation / unknown
 - Suggested capabilities:
 
 Please confirm whether this profile is correct. If there is no objection, proceed with this plan.
@@ -44,10 +46,13 @@ Ask at most 3 blocking questions, chosen from:
 3. Who are the approvers/admins for sensitive commands?
 4. What public callback URL should DingTalk call after deployment?
 5. Does the target service already have DingTalk `AppKey/AppSecret` configuration?
+6. Can the user create/modify the DingTalk internal application, or is there already an application?
 
 ## Default Assumptions
 
 - Recommend enterprise internal application robot.
+- If the user provides Client ID/AppKey/AgentId, assume an existing application path and check what is missing.
+- Do not default to "ask an admin" unless the user says they lack Open Platform permissions.
 - Support group ID discovery through recent callback events.
 - Separate preview/test groups and formal groups when messages can affect business workflow.
 - Store send logs if messages may need audit, retry, or recall.

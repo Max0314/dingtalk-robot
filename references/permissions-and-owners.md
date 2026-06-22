@@ -1,6 +1,6 @@
 # Permissions And Owners
 
-Use this reference when the user asks who needs to configure DingTalk, or when implementation is blocked by missing permissions.
+Use this reference only when the user asks who needs to configure DingTalk, or after confirming implementation is blocked by missing permissions. Do not make this the default path.
 
 ## Permission Roles
 
@@ -13,7 +13,7 @@ Typical owners:
 
 ## Ask For These Values
 
-If missing after code inspection, ask for:
+If missing after code inspection and the user appears to have access, ask for:
 
 ```text
 1. DingTalk enterprise app AppKey/AppSecret config method or owner.
@@ -23,7 +23,7 @@ If missing after code inspection, ask for:
 
 Do not ask for the raw `AppSecret` in chat if it can be configured directly in the deployment environment.
 
-## Handoff Template
+## Handoff Template For No-Permission Cases
 
 When the developer needs another admin to configure DingTalk, provide this:
 

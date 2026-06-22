@@ -12,20 +12,23 @@ Use this skill to add DingTalk group robot capabilities to an internal system wi
 1. Inspect the target project before asking questions. Identify the stack, routing style, auth middleware, config system, storage layer, deployment path, and existing DingTalk utilities.
 2. Present a short inferred project profile for user confirmation. Ask at most 3 blocking questions only when code inspection cannot determine a safe path.
 3. Default to an enterprise internal application robot. Only switch to a custom webhook robot if the user asks for simple one-way notification and no @-command callback.
-4. Decide the required business capabilities: outbound messages only, callback event capture, @ commands, admin approvals, preview/formal group separation, recall, image/card messages, and send logs.
-5. Load the relevant reference:
+4. Determine the user's DingTalk Open Platform state before giving setup instructions: self-service access, existing application to complete, or no permission/escalation needed. Do not assume the user must find an admin.
+5. Decide the required business capabilities: outbound messages only, callback event capture, @ commands, admin approvals, preview/formal group separation, recall, image/card messages, and send logs.
+6. Load the relevant reference:
    - Guided intake and inferred project profile: `references/intake-checklist.md`
    - Robot type decision and default recommendation: `references/robot-type-decision.md`
+   - DingTalk Open Platform state flow: `references/open-platform-flow.md`
    - DingTalk open-platform setup: `references/dingtalk-open-platform-setup.md`
    - FastAPI/Python integration: `references/fastapi-integration.md`
    - Callback fields and ID discovery: `references/callback-payload.md`
    - Group/admin configuration shape: `references/config-schema.md`
    - Command parsing and approval flows: `references/command-router.md`
    - Permissions, owners, and escalation: `references/permissions-and-owners.md`
+   - Conversation examples for novice guidance: `references/dialogue-examples.md`
    - Verification and failure analysis: `references/testing-troubleshooting.md`
-6. Reuse the templates under `assets/fastapi/` when the target is Python/FastAPI. Copy them with `scripts/scaffold_fastapi.py` or adapt them manually. For other stacks, implement the same contracts from the references in the local framework style.
-7. Keep secrets in the target project's existing environment/config mechanism. Never hard-code DingTalk app keys, app secrets, tokens, robot codes, group IDs, or user IDs in committed code.
-8. Add tests for command parsing, permission checks, target selection, and missing ID failure modes.
+7. Reuse the templates under `assets/fastapi/` when the target is Python/FastAPI. Copy them with `scripts/scaffold_fastapi.py` or adapt them manually. For other stacks, implement the same contracts from the references in the local framework style.
+8. Keep secrets in the target project's existing environment/config mechanism. Never hard-code DingTalk app keys, app secrets, tokens, robot codes, group IDs, or user IDs in committed code.
+9. Add tests for command parsing, permission checks, target selection, and missing ID failure modes.
 
 ## Integration Rules
 
@@ -38,6 +41,16 @@ Use this skill to add DingTalk group robot capabilities to an internal system wi
 - Prefer a small command router with synonyms over many ad hoc `if text contains ...` branches.
 - Do not make the user fill every technical detail up front. Infer project conditions from the repository, then ask the user to confirm the inferred plan.
 - Include a DingTalk open-platform checklist in the final handoff whenever the integration needs callback or group-message capabilities.
+- Never start by telling the user to find an admin. First determine whether they have Open Platform access, already have an application, or actually need escalation.
+
+## Conversation Rules
+
+- If the user asks for guidance, respond in phases: what was inferred, what cannot be done in the current repo, what the next 1-3 decisions are.
+- If the current repo is only a frontend/static project, clearly say the robot runtime must live in a backend and explain what the frontend can still do.
+- If the user provides AppKey/Client ID/AgentId, treat it as an existing application path and run a configuration checklist. Do not switch to an admin-request path unless they say they lack access.
+- If the user shares a Client Secret or AppSecret in chat, warn that it should be rotated and never repeat the secret value.
+- Explain fields in plain language before asking for them: Client ID/Secret gets access tokens, callback URL receives @ messages, robotCode identifies the robot, openConversationId identifies the group.
+- Prefer one "next step" block over a long full implementation dump for novice guidance.
 
 ## Recommended Deliverables
 

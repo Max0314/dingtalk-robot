@@ -1,10 +1,10 @@
 # DingTalk Open Platform Setup
 
-Use this reference whenever the integration requires enterprise internal application robot setup.
+Use this reference whenever the integration requires enterprise internal application robot setup. First determine the user's Open Platform state from `open-platform-flow.md`; do not assume an admin is required.
 
 ## Required Open Platform Operations
 
-Ask the DingTalk application owner/admin to complete these steps:
+If the user has DingTalk Open Platform permissions, ask them to complete these steps. If they do not, turn the same checklist into an admin request.
 
 1. Enter DingTalk Open Platform and open the enterprise internal application.
 2. Confirm or create the application used by the target system.
@@ -60,6 +60,14 @@ Before telling the admin the URL, verify:
 - public HTTPS certificate is valid
 - unauthenticated DingTalk requests can reach only the callback route
 
-## When Permissions Are Missing
+## Existing Application Path
 
-If the developer lacks DingTalk Open Platform permissions, ask for help from the enterprise DingTalk application administrator or platform owner. Provide the information block above instead of asking the developer to guess app settings.
+If the user already has an application, do not ask them to recreate it. Check only what is missing:
+
+- backend secret storage for Client ID/AppKey and Client Secret/AppSecret
+- robot capability
+- HTTP callback/receive mode
+- callback URL
+- application visibility/group availability
+- message template/msgKey if needed
+- first callback event from a test group
